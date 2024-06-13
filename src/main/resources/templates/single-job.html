@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Details</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+
+<div th:include="navbar.html" class="mb-10"></div>
+
+
+<div class="container mx-auto  mt-16 py-3">
+    <!-- Iterate over each job and render its details -->
+    <div class="bg-white rounded-lg shadow-md" >
+        <div class="flex flex-col md:flex-row items-center md:justify-between mb-6 bg-blue-100 p-6 md:px-16 md:py-10 md:h-64">
+            <!-- Job details -->
+            <div class="flex items-center mb-6 md:mb-0">
+                <img th:src="@{/images/1-2.webp}" alt="Company Logo" class="w-16 h-16 md:w-24 md:h-24 rounded-lg mr-4 md:mr-6">
+                <div>
+                    <h1 class="text-xl md:text-3xl font-bold" th:text="${job.title}">Software Engineer (Android), Libraries</h1>
+                    <div class="flex flex-col md:flex-row items-center text-gray-600 mt-2 mb-2 space-y-1 md:space-y-0">
+                        <span th:text="${job.companyName}">Segment</span>
+                        <span><i class="fas fa-map-marker-alt ml-2"></i> <span th:text="${job.location}">London, UK</span></span>
+                        <span><i class="fas fa-clock ml-2"></i> <span th:text="${job.postedTime}">11 hours ago</span></span>
+                        <span><i class="fas fa-money-bill-wave ml-2"></i> <span th:text="${job.salary}">$35k - $45k</span></span>
+                    </div>
+                    <!-- Job type badges -->
+                    <div class="flex space-x-2">
+                        <!-- Check if 'Full Time' job type is present -->
+                        <span th:if="${job.jobTypes.contains('Full Time')}" class="bg-blue-200 text-blue-800 px-3 py-1 rounded-full">Full Time</span>
+
+                        <!-- Check if 'Private' job type is present -->
+                        <span th:if="${job.jobTypes.contains('Private')}" class="bg-green-100 text-green-800 px-3 py-1 rounded-full">Private</span>
+
+                        <!-- Check if 'Urgent' job type is present -->
+                        <span th:if="${job.jobTypes.contains('Urgent')}" class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full">Urgent</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Action buttons -->
+            <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4">
+                <button id="modalBtn" class="bg-blue-500 text-white px-6 md:px-16 py-2 md:py-4 rounded-lg hover:bg-blue-600">Apply For Job</button>
+                <button class="bg-gray-200 text-gray-600 px-6 py-2 rounded-lg hover:bg-blue-500 hover:text-white"><i class="far fa-bookmark"></i></button>
+            </div>
+        </div>
+        <!-- Button to trigger the modal -->
+
+
+
+
+        <!-- Other job details -->
+        <!-- Include the rest of your job details markup here using Thymeleaf expressions -->
+        <!-- For example, you can access job.description, job.keyFeatures, etc. -->
+    </div>
+</div>
+
+
+        <div class="flex flex-col md:flex-row w-11/12 mx-auto px-4 md:px-10 mt-10 py-9">
+            <div class="w-full md:w-3/4 pr-0 md:pr-8">
+                <h2 class="text-xl font-bold mb-4">Job Description</h2>
+                <p class="mb-6 " th:text="${job.description}" >As a Product Designer, you will work within a Product
+                Delivery Team fused with UX, engineering, product and data talent.
+                 You will help the team design beautiful interfaces that solve business challenges for our clients.
+                 We work with a number of Tier 1 banks on building web-based applications for AML, KYC and Sanctions List
+                 management workflows. This role is ideal if you are looking to segue your career into
+                  the FinTech or Big Data arenas.</p>
+                <h2 class="text-xl font-bold mb-4" >Key Responsibilities</h2>
+<!--                <ul class="list-disc pl-5">-->
+<!--                    <li class="mb-2">Be involved in every step of the product design cycle from discovery to developer handoff and user acceptance testing.</li>-->
+<!--                    <li class="mb-2">Work with BAs, product managers and tech teams to lead the Product Design.</li>-->
+<!--                    <li class="mb-2">Accurately estimate design tickets during planning sessions.</li>-->
+<!--                    <li class="mb-2">Contribute to sketching sessions involving non-designers.</li>-->
+<!--                    <li class="mb-2">Create, iterate and maintain UI deliverables including sketch files, style guides, high fidelity prototypes, micro interaction specifications, and pattern libraries.</li>-->
+<!--                    <li class="mb-2">Ensure design choices are data-led by identifying assumptions to test each sprint, and work with the analysts in your team to plan moderated usability test sessions.</li>-->
+<!--                    <li class="mb-2">Design pixel-perfect responsive UIs and understand that adopting common interface patterns is better for UX than reinventing the wheel.</li>-->
+<!--                    <li class="mb-2">Present your work to the wider business at Show & Tell sessions.</li>-->
+<!--                </ul>-->
+                <p class="mb-6 " th:text="${job.keyFeatures}" >As a Product Designer, you will work within a Product
+                    Delivery Team fused with UX, engineering, product and data talent.
+                    You will help the team design beautiful interfaces that solve business challenges for our clients.
+                    We work with a number of Tier 1 banks on building web-based applications for AML, KYC and Sanctions List
+                    management workflows. This role is ideal if you are looking to segue your career into
+                    the FinTech or Big Data arenas.</p>
+                <h2 class="text-xl font-bold mb-4">Skills & Experience</h2>
+                <ul class="flex flex-wrap gap-2 md:gap-4">
+                    <li th:each="skill : ${job.skills}" class="px-4 py-2 bg-blue-50 rounded-2xl" th:text="${skill}"></li>
+                </ul>
+
+            </div>
+            <div class="w-full md:w-1/4 mt-8 md:mt-0">
+                <div class="bg-blue-50 p-6 rounded-lg">
+                    <h2 class="text-xl font-bold mb-4">Job Overview</h2>
+                    <div class="flex items-center text-gray-600 mb-4">
+                        <i class="fas fa-calendar-alt mr-2 text-2xl text-blue-400"></i>
+                        <div class="flex flex-col">
+                            <span class="font-bold text-md">Date Posted:</span>
+                            <!-- Display postedTime using Thymeleaf th:text attribute -->
+                            <span id="hoursAgo"></span>
+                        </div>
+                    </div>
+                     <script  th:inline="javascript">
+                            // Function to calculate hours difference and update the span tag
+                            function updateHoursAgo(datetimeString) {
+                            var datetime = new Date(datetimeString);
+                            var now = new Date();
+                            var hoursDifference = Math.floor((now - datetime) / (1000 * 60 * 60));
+                            document.getElementById('hoursAgo').innerText = "Posted " + hoursDifference + " hour" + (hoursDifference !== 1 ? "s" : "") + " ago";
+                            }
+
+                            // Example usage: calling the function with a datetime string
+                            var datetimeString = [[${job.postedTime}]];
+                            // Replace with your actual datetime string
+                            updateHoursAgo(datetimeString);
+                    </script>
+
+                    <div class="flex items-center text-gray-600 mb-4">
+                        <i class="fas fa-hourglass-end mr-2 text-2xl text-blue-400"></i>
+                        <div class="flex flex-col">
+                            <span class="font-bold text-md" >Expiration date:</span>
+                            <span th:text="${job.expiryDate}">April 06, 2021</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center text-gray-600 mb-4">
+                        <i class="fas fa-map-marker-alt mr-2 text-2xl text-blue-400"></i>
+                        <div class="flex flex-col">
+                            <span class="font-bold text-md" >Location:</span>
+                            <span th:text="${job.location}">India, Bangalore</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center text-gray-600 mb-4">
+                        <i class="fas fa-user mr-2 text-2xl text-blue-400"></i>
+                        <div class="flex flex-col">
+                            <span class="font-bold text-md" >Job title:</span>
+                            <span th:text="${job.title}">Software Engineer</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center text-gray-600 mb-4">
+                        <i class="fas fa-money-bill-wave mr-2 text-2xl text-blue-400"></i>
+                        <div class="flex flex-col">
+                            <span class="font-bold text-md" >Salary:</span>
+                            <span th:text="${job.salary}">5LPA - 6LPA</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</body>
+
+</html>

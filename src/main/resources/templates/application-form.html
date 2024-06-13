@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create/Edit Application</title>
+</head>
+<body>
+<h1 th:text="${application.id == null ? 'Create Application' : 'Edit Application'}"></h1>
+<form th:action="@{/applications}" th:object="${application}" method="post">
+    <input type="hidden" th:field="*{id}" />
+    <label for="resumeUrl" >Resume URL:</label>
+    <input type="text" th:field="*{resumeUrl}" id="resumeUrl" />
+    <label for="status">Status:</label>
+    <input type="text" th:field="*{status}" id="status" />
+    <button type="submit">Save</button>
+</form>
+</body>
+</html>

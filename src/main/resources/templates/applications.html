@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Applications</title>
+</head>
+<body>
+<h1>Applications</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Resume URL</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="application : ${applications}">
+        <td th:text="${application.id}"></td>
+        <td th:text="${application.resumeUrl}"></td>
+        <td th:text="${application.status}"></td>
+        <td>
+            <a th:href="@{/applications/edit/{id}(id=${application.id})}">Edit</a>
+            <a th:href="@{/applications/delete/{id}(id=${application.id})}">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Application Detail</title>
+</head>
+<body>
+<h1>Application Detail</h1>
+<p>ID: <span th:text="${application.id}"></span></p>
+<p>Resume URL: <span th:text="${application.resumeUrl}"></span></p>
+<p>Status: <span th:text="${application.status}"></span></p>
+<a th:href="@{/applications}">Back to Applications</a>
+</body>
+</html>
