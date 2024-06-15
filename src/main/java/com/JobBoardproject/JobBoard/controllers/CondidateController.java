@@ -25,7 +25,6 @@ public class CondidateController {
         model.addAttribute("profile", profile);
         return "Condidate_Dashboard";
     }
-
     @PostMapping("/save")
     public String SaveProfile(@ModelAttribute("profile") Condidate_Profile profile)
     {

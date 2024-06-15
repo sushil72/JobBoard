@@ -24,7 +24,7 @@ public class Condidate_Profile {
     @ElementCollection
     private List<String> skills;
     @Lob
-    private Blob Profieimage;
+    private byte[] profileImage;
     private String linkedinUrl;
     private String githubUrl;
     private String experience;
