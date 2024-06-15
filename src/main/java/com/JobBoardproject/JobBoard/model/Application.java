@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.JobBoardproject.JobBoard.model.Job;
-import org.springframework.stereotype.Component;
+
+import java.sql.Blob;
 
 @Data
 @AllArgsConstructor
@@ -16,7 +16,9 @@ public class Application {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String resumeUrl;
+    @Lob
+    @Column(name = "resume", columnDefinition = "BLOB")
+    private Blob resume;
     private String status;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -26,6 +28,4 @@ public class Application {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "candidate_id")
     private Users candidate;
-
-
 }

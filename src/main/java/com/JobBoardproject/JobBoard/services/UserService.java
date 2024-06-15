@@ -2,13 +2,9 @@ package com.JobBoardproject.JobBoard.services;
 
 import com.JobBoardproject.JobBoard.Exception.UserNotFoundException;
 import com.JobBoardproject.JobBoard.model.Users;
-import com.JobBoardproject.JobBoard.model.Users;
 import com.JobBoardproject.JobBoard.repository.UserRepository;
-import jdk.jshell.spi.ExecutionControl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class UserService {

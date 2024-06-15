@@ -81,7 +81,7 @@ public class ApplicationController {
         app.setId(application.getId());
         app.setJob(application.getJob());
         app.setStatus(application.getStatus());
-        app.setResumeUrl(application.getResumeUrl());
+        app.setResume(application.getResume());
         applicationService.saveApplication(app);
         return "redirect:/applications";
     }

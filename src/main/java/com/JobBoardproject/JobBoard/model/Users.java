@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.JobBoardproject.JobBoard.model.Role;
-import org.springframework.stereotype.Component;
 
 import java.util.Set;
 //import javax.management.relation.Role;

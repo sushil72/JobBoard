@@ -1,13 +1,16 @@
 package com.JobBoardproject.JobBoard.controllers;
 
+import com.JobBoardproject.JobBoard.model.Condidate_Profile;
 import com.JobBoardproject.JobBoard.model.Job;
 import com.JobBoardproject.JobBoard.services.JobService;
+import com.JobBoardproject.JobBoard.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import com.JobBoardproject.JobBoard.model.Condidate_Profile;
 
 import java.util.List;
 
@@ -15,6 +18,7 @@ import java.util.List;
 public class HomeController {
     @Autowired
     JobService jobService;
+    UserService userService;
 
     @GetMapping({"index","/"})
     public String Home(Model model) {
@@ -37,5 +41,11 @@ public class HomeController {
             model.addAttribute("job", job);
         }
         return "single-job";
+    }
+    @GetMapping("/condidate")
+    public String condidate(Model model)
+    {
+
+        return "Condidate_Profile";
     }
 }

@@ -1,5 +1,6 @@
 package com.JobBoardproject.JobBoard.controllers;
 
+
 import com.JobBoardproject.JobBoard.model.Users;
 import com.JobBoardproject.JobBoard.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
