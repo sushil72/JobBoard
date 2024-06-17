@@ -1,7 +1,9 @@
 package com.JobBoardproject.JobBoard.controllers;
 
 
+import com.JobBoardproject.JobBoard.model.Condidate_Profile;
 import com.JobBoardproject.JobBoard.model.Users;
+import com.JobBoardproject.JobBoard.repository.Profile;
 import com.JobBoardproject.JobBoard.repository.UserRepository;
 import com.JobBoardproject.JobBoard.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private Profile CondidateRepo;
+
     @PostMapping("/register")
     public String registerUser(@RequestParam String username, @RequestParam String password, @RequestParam String email, @RequestParam String role, Model model) {
         if (userRepository.findByEmail(email)!= null) {
@@ -28,11 +33,18 @@ public class AuthController {
             return "register";
         }
         Users user = new Users();
+
         user.setUsername(username);
         user.setPassword(passwordEncoder.encode(password));
         user.setRole(role);
         user.setEmail(email);
+
         userRepository.save(user);
+        Condidate_Profile profile = new Condidate_Profile();
+        profile.setEmail(email);
+        profile.setId(user.getId());
+        profile.setName(username);
+        CondidateRepo.save(profile);
         System.out.println("Registerd successfully");
         return "redirect:/auth/login";
     }
