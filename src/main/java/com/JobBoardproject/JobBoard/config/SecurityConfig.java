@@ -20,12 +20,12 @@ public class SecurityConfig {
         http.csrf(csrf->csrf.disable()).
                 authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/auth/register", "/auth/login").permitAll()
+                                .requestMatchers("/auth/register", "/auth/login","/").permitAll()
                                 .requestMatchers("/user/**").hasRole("USER")
                                 .anyRequest().authenticated()
                 )
                 .formLogin(formLogin ->formLogin.loginPage("/auth/login").loginProcessingUrl("/userLogin")
-                                .defaultSuccessUrl("/auth/login/success", true)
+                                .defaultSuccessUrl("/", true)
                                 .permitAll()
                 )
                 .logout(logout ->
