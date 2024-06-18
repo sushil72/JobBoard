@@ -27,12 +27,12 @@
             <h2 class="text-2xl font-bold mb-8">Dashboard</h2>
             <ul class="space-y-4">
                 <li>
-                    <a href="#" class="flex items-center p-2 text-gray-600 hover:bg-gray-200 rounded-lg">
+                    <a href="/condidate/profile" class="flex items-center p-2 text-gray-600 hover:bg-gray-200 rounded-lg">
                         <i class="fas fa-user mr-3"></i> My Profile
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center p-2 text-gray-600 hover:bg-gray-200 rounded-lg">
+                    <a href="" class="flex items-center p-2 text-gray-600 hover:bg-gray-200 rounded-lg">
                         <i class="fas fa-briefcase mr-3"></i> Applied Jobs
                     </a>
                 </li>
@@ -55,13 +55,18 @@
         <div class="bg-white rounded-lg shadow-lg p-6">
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-6">
-                    <img src="https://via.placeholder.com/150" alt="Profile Picture" class="w-24 h-24 rounded-full">
+
+                    <img th:if="${candidate.profileImage != null}" th:src="@{/profileImage/{id}(id=${candidate.id})}" alt="Profile Picture" class="w-24 h-24 rounded-full">
+
+                    <!--                        <img th:if="${candidate.profileImage != null}" th:src="@{/profileImage/{id}(id=${candidate.id})}" alt="Profile Picture" class="w-32 h-32 rounded-full object-cover mx-auto">-->
+                        <p th:if="${candidate.profileImage == null}" class="text-center text-gray-500">No Profile Picture</p>
+
                     <div>
-                        <h2 class="text-2xl font-bold" id="candidateName" th:text="${updatedname}">John Doe</h2>
+                        <h2 class="text-2xl font-bold" id="candidateName" th:text="${User.username}">John Doe</h2>
                         <div class="flex space-x-2">
-                            <p class="text-gray-600" id="jobTitle" th:text="${updatedjobtitle}">Job title</p>
-                            <p class="text-gray-600" id="email" th:text="${updatedemail}" >johndoe@example.com</p>
-                            <p class="text-gray-600" id="location" th:text="${updatedlocation}">Update Location</p>
+                            <p class="text-gray-600" id="jobTitle" th:text="${candidate.jobtitle}">Job title</p>
+                            <p class="text-gray-600" id="email" th:text="${User.email}">johndoe@example.com</p>
+                            <p class="text-gray-600" id="location" th:text="${candidate.location}">Update Location</p>
                         </div>
                     </div>
 
@@ -73,23 +78,27 @@
             </div>
             <div class="mt-6">
                 <h3 class="text-xl font-bold mb-4">About Me</h3>
-                <p class="text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis a metus ac nulla consequat aliquet id quis turpis. Nullam vitae feugiat libero, ut tempus dolor.</p>
+                <p class="text-gray-600" th:if="${candidate.about==null}">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis a metus ac nulla consequat aliquet id quis turpis. Nullam vitae feugiat libero, ut tempus dolor.</p>
+                <p class="text-gray-600" th:if="${candidate.about!=null}"> <span th:text="${candidate.about}">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis a metus ac nulla consequat aliquet id
+                    quis turpis. Nullam vitae feugiat libero, ut tempus dolor.</span></p>
+
             </div>
             <div class="mt-6">
                 <h3 class="text-xl font-bold mb-4">Skills</h3>
                 <ul class="flex flex-wrap gap-2">
-                    <li class="px-4 py-2 bg-blue-100 text-blue-800 rounded-full">Java</li>
-                    <li class="px-4 py-2 bg-green-100 text-green-800 rounded-full">JavaScript</li>
-                    <li class="px-4 py-2 bg-red-100 text-red-800 rounded-full">Python</li>
-                    <li class="px-4 py-2 bg-yellow-100 text-yellow-800 rounded-full">React</li>
-                    <li class="px-4 py-2 bg-purple-100 text-purple-800 rounded-full">Node.js</li>
+                    <li class="px-4 py-2 bg-blue-100 text-blue-800 rounded-full" th:each="skill : ${candidate.skills}" th:text="${skill}">Skill Name</li>
                 </ul>
+            </div>
+            <div class="mt-6">
+                <h3 class="text-xl font-bold mb-4">Experience</h3>
+                <p class="text-lg font-semibold px-2 text-green-500" th:text="${candidate.experience}+years">0-1yrs</p>
             </div>
         </div>
         <!-- Form Section -->
         <div class="w-full py-6 px-4 mt-10 bg-white rounded-lg shadow-lg">
             <h2 class="text-2xl font-bold mb-6">Edit Profile Details</h2>
-            <form >
+            <form th:action="@{/condidate/updateOther/{candidateId} (candidateId=${candidate.id})}" method="post" >
                 <!-- About Input -->
                 <div class="mb-4">
                     <label class="block text-gray-700 font-bold mb-2" for="about">About</label>
@@ -114,11 +123,11 @@
 
                 <!-- Social Profiles -->
                 <div class="mb-4">
-                    <label class="block text-gray-700 font-bold mb-2" for="linkedin">LinkedIn URL</label>
+                    <label class="block text-gray-700 font-bold mb-2" for="linkedin">LinkedIn profile</label>
                     <input type="url" id="linkedin" name="linkedin" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="https://linkedin.com/in/yourprofile">
                 </div>
                 <div class="mb-4">
-                    <label class="block text-gray-700 font-bold mb-2" for="github">GitHub URL</label>
+                    <label class="block text-gray-700 font-bold mb-2" for="github">GitHub profile</label>
                     <input type="url" id="github" name="github" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="https://github.com/yourprofile">
                 </div>
 
@@ -150,10 +159,10 @@
             <h3 class="text-xl font-bold">Edit Profile</h3>
             <button id="closeEditProfile" class="text-gray-600 hover:text-gray-900" >&times;</button>
         </div>
-        <form class="mt-4" th:action="@{/condidate/EditModal/{userId} (userId=${userId})}" method="post">
+        <form class="mt-4" th:action="@{/condidate/EditModal/{userId} (userId=${User.id})}" method="post" >
             <div class="mb-4">
                 <label class="block text-gray-700 font-bold mb-2" for="editName">Name</label>
-                <input type="text" id="editName" name="name" th:value="${username}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <input type="text" id="editName" name="name" th:value="${User.username}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700 font-bold mb-2" for="editJobTitle" >Job Title</label>
@@ -161,7 +170,7 @@
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700 font-bold mb-2" for="editEmail">Email</label>
-                <input type="email" id="editEmail" name="email" th:value="${email}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <input type="email" id="editEmail" name="email" th:value="${User.email}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700 font-bold mb-2" for="editEmail">Phone</label>
@@ -185,10 +194,10 @@
             <h3 class="text-xl font-bold">Change Profile Picture</h3>
             <button id="closeChangePic" class="text-gray-600 hover:text-gray-900">&times;</button>
         </div>
-        <form class="mt-4" enctype="multipart/form-data">
+        <form class="mt-4" th:action="@{/condidate/uploadImage/{userId} (userId=${User.id})}" method="post" enctype="multipart/form-data">
             <div class="mb-4">
                 <label class="block text-gray-700 font-bold mb-2" for="profilePic">Upload Picture</label>
-                <input type="file" id="profilePic" name="profilePic" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <input type="file" id="profilePic"  name="profilePic" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
             </div>
             <div class="flex justify-end">
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Upload</button>

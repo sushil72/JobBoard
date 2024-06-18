@@ -23,6 +23,7 @@ public class Condidate_Profile {
     @ElementCollection
     private List<String> skills;
     @Lob
+    @Column(name = "profile_image", columnDefinition="LONGBLOB")
     private byte[] profileImage;
     private String linkedinUrl;
     private String githubUrl;

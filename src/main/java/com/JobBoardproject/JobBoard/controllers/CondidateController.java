@@ -6,12 +6,18 @@ import com.JobBoardproject.JobBoard.model.Condidate_Profile;
 import com.JobBoardproject.JobBoard.model.Users;
 import com.JobBoardproject.JobBoard.repository.Profile;
 import com.JobBoardproject.JobBoard.services.UserService;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @Controller
@@ -30,10 +36,14 @@ public class CondidateController {
         UserPrinciple userPrinciple = (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Users user = userPrinciple.getUsers();
 
+        Optional<Condidate_Profile> foundByUsername= CondidateRepo.findById(user.getId());
+        foundByUsername.ifPresent(profile -> model.addAttribute("candidate", profile));
+        model.addAttribute("User",user);
+
         // Add user details to the model
-        model.addAttribute("username", user.getUsername());
-        model.addAttribute("userId", user.getId());
-        model.addAttribute("email", user.getEmail());
+//        model.addAttribute("username", user.getUsername());
+//        model.addAttribute("userId", user.getId());
+//        model.addAttribute("email", user.getEmail());
         return "Condidate_Dashboard";
     }
 
@@ -45,7 +55,7 @@ public class CondidateController {
         Optional<Condidate_Profile> foundProfile=CondidateRepo.findById(id);
         if(foundProfile.isPresent())
         {
-            Condidate_Profile existingProfile=foundProfile.get();
+
 //            System.out.println("User found with id " +id );
 
             foundProfile.get().setName(profile.getName());
@@ -54,14 +64,8 @@ public class CondidateController {
             foundProfile.get().setLocation(profile.getLocation());
             foundProfile.get().setPhone(profile.getPhone());
 
-            CondidateRepo.save(existingProfile);
-            System.out.println(existingProfile);
-                model.addAttribute("updatedjobtitle",existingProfile.getJobtitle());
-                model.addAttribute("updatedlocation",existingProfile.getLocation());
-                model.addAttribute("updatedphone",existingProfile.getPhone());
-                model.addAttribute("udatedemail",existingProfile.getEmail());
-                model.addAttribute("updatedname",existingProfile.getName());
-//                model.addAttribute("profile", foundProfile.get());
+            CondidateRepo.save(foundProfile.get());
+
         }
         else {
 
@@ -69,4 +73,47 @@ public class CondidateController {
         }
         return "redirect:/condidate/profile";
     }
+
+
+
+    @PostMapping("/uploadImage/{id}")
+    public String uploadImage(@PathVariable Long id, @RequestParam("profilePic") MultipartFile file, Model model) throws IOException {
+        Optional<Condidate_Profile> foundProfile = CondidateRepo.findById(id);
+
+        if (foundProfile.isPresent()) {
+            Condidate_Profile profile = foundProfile.get();
+            if (!file.isEmpty()) {
+                profile.setProfileImage(file.getBytes());
+            }
+            CondidateRepo.save(profile);
+        } else {
+            throw new UserNotFoundException("User Not Found");
+        }
+
+        return "redirect:/candidate/profile";
+    }
+
+    @GetMapping("/profileImage/{id}")
+    public ResponseEntity<Resource> getProfileImage(@PathVariable Long id) {
+        Condidate_Profile profile = CondidateRepo.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"profile-pic.jpg\"")
+                .body((Resource) new ByteArrayResource(profile.getProfileImage()));
+    }
+
+
+    @PostMapping("/updateOther/{id}")
+    public String UpdateOtherInfo(@PathVariable Long id , @ModelAttribute Condidate_Profile profile) {
+        Optional<Condidate_Profile> foundprofile= CondidateRepo.findById(id);
+        foundprofile.get().setAbout(profile.getAbout());
+        foundprofile.get().setSkills(profile.getSkills());
+        foundprofile.get().setGithubUrl(profile.getGithubUrl());
+        foundprofile.get().setLinkedinUrl(profile.getLinkedinUrl());
+        foundprofile.get().setExperience(profile.getExperience());
+//        foundprofile.get().setAbout(profile.getAbout());
+        CondidateRepo.save(foundprofile.get());
+        return "redirect:/condidate/profile";
+    }
+
 }
