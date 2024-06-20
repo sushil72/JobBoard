@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Blob;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,8 +15,10 @@ public class Application {
     private Long id;
 
     @Lob
-    @Column(name = "resume", columnDefinition = "BLOB")
-    private Blob resume;
+    @Column(name = "resume", columnDefinition = "LONGBLOB")
+    private byte[] resume; // Storing resume as byte array
+
+    private String coverLetter; // Adding cover letter field
     private String status;
 
     @ManyToOne(fetch = FetchType.LAZY)

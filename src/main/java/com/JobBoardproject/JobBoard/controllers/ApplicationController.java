@@ -3,15 +3,24 @@ package com.JobBoardproject.JobBoard.controllers;
 
 import com.JobBoardproject.JobBoard.model.Application;
 import com.JobBoardproject.JobBoard.model.Job;
+import com.JobBoardproject.JobBoard.model.Users;
+import com.JobBoardproject.JobBoard.repository.ApplicationRepository;
+import com.JobBoardproject.JobBoard.repository.JobRepository;
+import com.JobBoardproject.JobBoard.repository.UserRepository;
 import com.JobBoardproject.JobBoard.services.ApplicationService;
 import com.JobBoardproject.JobBoard.services.JobService;
 import com.JobBoardproject.JobBoard.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/applications")
@@ -21,16 +30,23 @@ public class ApplicationController {
     private ApplicationService applicationService;
 
     @Autowired
+    private ApplicationRepository appreopo;
+
+    @Autowired
     private JobService jobService;
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private JobRepository jobRepository;
 
-    @GetMapping
+    @GetMapping("/list")
     public String listApplications(Model model) {
         List<Application> applications = applicationService.getAllApplications();
         model.addAttribute("applications", applications);
-        return "applications"; // Thymeleaf template: src/main/resources/templates/applications.html
+        return "applications";
     }
 
     @GetMapping("/job/{job_id}")
@@ -58,11 +74,44 @@ public class ApplicationController {
         return "application-form";
     }
 
-    @PostMapping("/new")
-    public String saveApplication(@ModelAttribute("application") Application application)
-    {
-        applicationService.saveApplication(application);
-        return "redirect:/applications";
+    @PostMapping("/apply/{jobId}")
+    public String applyForJob(@PathVariable Long jobId,
+                              @RequestParam("coverLetter") String coverLetter,
+                              @RequestParam("resume") MultipartFile resumeFile) throws IOException {
+        // Get the current logged-in user
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username;
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails) principal).getUsername();
+        } else {
+            username = principal.toString();
+        }
+
+        Optional<Users> optionalUser = userRepository.findByUsername(username);
+        if (optionalUser.isEmpty()) {
+            throw new RuntimeException("User not found");
+        }
+        Users user = optionalUser.get();
+
+        // Get the job
+        Optional<Job> optionalJob = jobRepository.findById(jobId);
+        if (optionalJob.isEmpty()) {
+            throw new RuntimeException("Job not found");
+        }
+        Job job = optionalJob.get();
+
+        // Create the application
+        Application application = new Application();
+        application.setCandidate(user);
+        application.setJob(job);
+        application.setCoverLetter(coverLetter);
+        application.setResume(resumeFile.getBytes());
+        application.setStatus("Pending");
+
+        // Save the application
+        appreopo.save(application);
+
+        return "redirect:/condidate/profile";
     }
 
     @GetMapping("/edit/{id}")
@@ -91,6 +140,13 @@ public class ApplicationController {
   {
       applicationService.deleteApp(id);
       return "redirect:/application/applications";
+  }
+
+  @GetMapping("/appliedjobs")
+  public String  AppliedJobs()
+  {
+
+      return "applied-jobs.html";
   }
 
 }

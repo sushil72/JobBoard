@@ -1,17 +1,65 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Create/Edit Application</title>
-</head>
-<body>
-<h1 th:text="${application.id == null ? 'Create Application' : 'Edit Application'}"></h1>
-<form th:action="@{/applications}" th:object="${application}" method="post">
-    <input type="hidden" th:field="*{id}" />
-    <label for="resumeUrl" >Resume URL:</label>
-    <input type="text" th:field="*{resumeUrl}" id="resumeUrl" />
-    <label for="status">Status:</label>
-    <input type="text" th:field="*{status}" id="status" />
-    <button type="submit">Save</button>
-</form>
-</body>
-</html>
+
+<!-- Apply Button -->
+<div id="applyModal" class="fixed z-10 inset-0 overflow-y-auto hidden">
+    <div class="flex items-center justify-center min-h-screen">
+        <div class="fixed inset-0 bg-gray-800 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+
+        <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
+            <div class="bg-gradient-to-r from-blue-500 to-indigo-600 px-4 pt-5 pb-4 sm:px-6 sm:pt-6 sm:pb-4">
+                <div class="sm:flex sm:items-center">
+                    <div class="text-center sm:mt-0 sm:ml-4 sm:text-left">
+                        <h3 class="text-lg leading-6 font-medium text-white" id="modal-title">
+                            Job Application
+                        </h3>
+                        <div class="mt-2">
+                            <form id="applyForm" th:action="@{/applications/apply/" method="post" class="space-y-4" enctype="multipart/form-data">
+                                <div>
+                                    <label for="coverLetter" class="block text-sm font-medium text-white">Cover Letter</label>
+                                    <textarea id="coverLetter" name="coverLetter" rows="4" class="mt-1 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" required></textarea>
+                                </div>
+                                <div>
+                                    <label for="resume" class="block text-sm font-medium text-white">Upload Resume</label>
+                                    <input type="file" id="resume" name="resume" class="mt-1 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" required>
+                                </div>
+                                <div class="flex justify-end">
+                                    <button type="button" id="cancelButton" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">Cancel</button>
+                                    <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 ml-2">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    // Get the modal
+    var modal = document.getElementById("applyModal");
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("applyButton");
+
+    // Get the <span> element that closes the modal
+    var cancelBtn = document.getElementById("cancelButton");
+
+    // When the user clicks the button, open the modal
+    btn.onclick = function() {
+        modal.classList.remove("hidden");
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    cancelBtn.onclick = function() {
+        modal.classList.add("hidden");
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.classList.add("hidden");
+        }
+    }
+</script>
+
+
+

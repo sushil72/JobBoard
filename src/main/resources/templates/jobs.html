@@ -40,12 +40,7 @@
                     </div>
                 </div>
                 <div class="flex space-x-2">
-    <span th:each="type : ${job.jobTypes}"
-          th:class="${type == 'Full Time'} ? 'bg-blue-100 text-blue-800 px-3 py-1 rounded-full' :
-                    ${type == 'Private'} ? 'bg-green-100 text-green-800 px-3 py-1 rounded-full' :
-                    ${type == 'Urgent'} ? 'bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full' : ''">
-        <span th:text="${type}"></span>
-    </span>
+                    <span th:each="type : ${job.jobTypes}" class=" 'bg-blue-100 text-blue-800 px-3 py-1 rounded-full' "  th:text="${type}"></span>
                 </div>
 
             </div>

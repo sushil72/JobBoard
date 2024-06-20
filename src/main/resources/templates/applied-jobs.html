@@ -1,10 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>Applied Jobs</title>
 </head>
 <body>
-$END$
+
+<div class="flex h-screen py-16">
+    <!-- Left-side menu -->
+    <div class="w-1/4 bg-white shadow-lg   ">
+        <div class="p-6">
+            <h2 class="text-2xl font-bold mb-8">Dashboard</h2>
+            <ul class="space-y-4">
+                <li>
+                    <a href="/condidate/profile" class="flex items-center p-2 text-gray-600 hover:bg-gray-200 rounded-lg">
+                        <i class="fas fa-user mr-3"></i> My Profile
+                    </a>
+                </li>
+                <li>
+                    <a href="" class="flex items-center p-2 text-gray-600 hover:bg-gray-200 rounded-lg">
+                        <i class="fas fa-briefcase mr-3"></i> Applied Jobs
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="flex items-center p-2 text-gray-600 hover:bg-gray-200 rounded-lg">
+                        <i class="fas fa-heart mr-3"></i> Saved Jobs
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="flex items-center p-2 text-gray-600 hover:bg-gray-200 rounded-lg">
+                        <i class="fas fa-sign-out-alt mr-3"></i> Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Right-side profile card -->
+    <div class="w-3/4 bg-white shadow-lg p-6">
+        <h2 class="text-2xl font-bold mb-8">Applied Jobs</h2>
+        <div th:if="${#lists.isEmpty(appliedJobs)}">
+            <p class="text-gray-700">You have not applied to any jobs yet.</p>
+        </div>
+        <div th:unless="${#lists.isEmpty(appliedJobs)}">
+            <table class="min-w-full bg-white">
+                <thead>
+                <tr>
+                    <th class="py-2">Job Title</th>
+                    <th class="py-2">Company</th>
+                    <th class="py-2">Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="application : ${appliedJobs}">
+                    <td class="border px-4 py-2" th:text="${application.job.title}">Job Title</td>
+                    <td class="border px-4 py-2" th:text="${application.job.company.name}">Company</td>
+                    <td class="border px-4 py-2" th:text="${application.status}">Status</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 </body>
 </html>
