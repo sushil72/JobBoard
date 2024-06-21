@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Applied Jobs</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body>
 
 <div class="flex h-screen py-16">
     <!-- Left-side menu -->
-    <div class="w-1/4 bg-white shadow-lg   ">
+    <div class="w-1/4 bg-white shadow-lg">
         <div class="p-6">
             <h2 class="text-2xl font-bold mb-8">Dashboard</h2>
             <ul class="space-y-4">
@@ -18,7 +20,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="" class="flex items-center p-2 text-gray-600 hover:bg-gray-200 rounded-lg">
+                    <a href="/applied_jobs" class="flex items-center p-2 text-gray-600 hover:bg-gray-200 rounded-lg">
                         <i class="fas fa-briefcase mr-3"></i> Applied Jobs
                     </a>
                 </li>
@@ -36,31 +38,33 @@
         </div>
     </div>
 
-    <!-- Right-side profile card -->
-    <div class="w-3/4 bg-white shadow-lg p-6">
-        <h2 class="text-2xl font-bold mb-8">Applied Jobs</h2>
-        <div th:if="${#lists.isEmpty(appliedJobs)}">
-            <p class="text-gray-700">You have not applied to any jobs yet.</p>
+    <!-- Right-side applied jobs -->
+    <div class="w-3/4 bg-gray-100 p-6">
+        <h2 class="text-2xl font-bold mb-6">Applied Jobs</h2>
+        <div th:if="${jobs.isEmpty()}">
+            <p class="text-gray-600">You have not applied for any jobs yet.</p>
         </div>
-        <div th:unless="${#lists.isEmpty(appliedJobs)}">
-            <table class="min-w-full bg-white">
-                <thead>
-                <tr>
-                    <th class="py-2">Job Title</th>
-                    <th class="py-2">Company</th>
-                    <th class="py-2">Status</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="application : ${appliedJobs}">
-                    <td class="border px-4 py-2" th:text="${application.job.title}">Job Title</td>
-                    <td class="border px-4 py-2" th:text="${application.job.company.name}">Company</td>
-                    <td class="border px-4 py-2" th:text="${application.status}">Status</td>
-                </tr>
-                </tbody>
-            </table>
+        <div th:if="${!jobs.isEmpty()}">
+            <div class="space-y-4">
+                <div th:each="job, iter : ${jobs}">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-semibold text-gray-800" th:text="">Job Title</h3>
+                        <p class="text-gray-600 mt-2" th:text="">Job Description</p>
+                        <p class="text-gray-600 mt-2" th:text="${job.companyName}">Company Name</p>
+                        <div class="mt-4">
+                            <span class="text-gray-700 font-bold">Application Status:</span>
+                            <span class="text-gray-600" th:text="">Pending</span>
+                        </div>
+                        <div class="mt-4">
+                            <span class="text-gray-700 font-bold">Cover Letter:</span>
+                            <p class="text-gray-600 mt-2" th:text=""></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
 </body>
 </html>

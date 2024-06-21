@@ -142,11 +142,6 @@ public class ApplicationController {
       return "redirect:/application/applications";
   }
 
-  @GetMapping("/appliedjobs")
-  public String  AppliedJobs()
-  {
 
-      return "applied-jobs.html";
-  }
 
 }

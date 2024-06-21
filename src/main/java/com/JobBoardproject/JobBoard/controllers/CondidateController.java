@@ -2,9 +2,14 @@ package com.JobBoardproject.JobBoard.controllers;
 
 import com.JobBoardproject.JobBoard.Exception.UserNotFoundException;
 import com.JobBoardproject.JobBoard.config.UserPrinciple;
+import com.JobBoardproject.JobBoard.model.Application;
 import com.JobBoardproject.JobBoard.model.Condidate_Profile;
+import com.JobBoardproject.JobBoard.model.Job;
 import com.JobBoardproject.JobBoard.model.Users;
+import com.JobBoardproject.JobBoard.repository.ApplicationRepository;
+import com.JobBoardproject.JobBoard.repository.JobRepository;
 import com.JobBoardproject.JobBoard.repository.Profile;
+import com.JobBoardproject.JobBoard.services.JobService;
 import com.JobBoardproject.JobBoard.services.UserService;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +23,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/condidate")
@@ -28,6 +36,8 @@ public class CondidateController {
     Profile CondidateRepo;
     @Autowired
     UserService userService;
+    @Autowired
+    private JobRepository jobRepository;
 
 
     @GetMapping("/profile")
@@ -36,9 +46,9 @@ public class CondidateController {
         UserPrinciple userPrinciple = (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Users user = userPrinciple.getUsers();
 
-        Optional<Condidate_Profile> foundByUsername= CondidateRepo.findById(user.getId());
+        Optional<Condidate_Profile> foundByUsername = CondidateRepo.findById(user.getId());
         foundByUsername.ifPresent(profile -> model.addAttribute("candidate", profile));
-        model.addAttribute("User",user);
+        model.addAttribute("User", user);
 
         // Add user details to the model
 //        model.addAttribute("username", user.getUsername());
@@ -49,12 +59,10 @@ public class CondidateController {
 
 
     @PostMapping("/EditModal/{id}")
-    public String UpdateProfile(@PathVariable Long id,@ModelAttribute Condidate_Profile profile,Model model )
-    {
+    public String UpdateProfile(@PathVariable Long id, @ModelAttribute Condidate_Profile profile, Model model) {
 //        System.out.println("updating....");
-        Optional<Condidate_Profile> foundProfile=CondidateRepo.findById(id);
-        if(foundProfile.isPresent())
-        {
+        Optional<Condidate_Profile> foundProfile = CondidateRepo.findById(id);
+        if (foundProfile.isPresent()) {
 
 //            System.out.println("User found with id " +id );
 
@@ -66,14 +74,12 @@ public class CondidateController {
 
             CondidateRepo.save(foundProfile.get());
 
-        }
-        else {
+        } else {
 
             throw new UserNotFoundException("User Not Found");
         }
         return "redirect:/condidate/profile";
     }
-
 
 
     @PostMapping("/uploadImage/{id}")
@@ -104,8 +110,8 @@ public class CondidateController {
 
 
     @PostMapping("/updateOther/{id}")
-    public String UpdateOtherInfo(@PathVariable Long id , @ModelAttribute Condidate_Profile profile) {
-        Optional<Condidate_Profile> foundprofile= CondidateRepo.findById(id);
+    public String UpdateOtherInfo(@PathVariable Long id, @ModelAttribute Condidate_Profile profile) {
+        Optional<Condidate_Profile> foundprofile = CondidateRepo.findById(id);
         foundprofile.get().setAbout(profile.getAbout());
         foundprofile.get().setSkills(profile.getSkills());
         foundprofile.get().setGithubUrl(profile.getGithubUrl());
@@ -116,4 +122,14 @@ public class CondidateController {
         return "redirect:/condidate/profile";
     }
 
+    @Autowired
+    private ApplicationRepository applicationRepository;
+
+    @GetMapping("/applied_jobs")
+    public String viewProfile(Model model) {
+        // Retrieve the logged-in user
+        UserPrinciple userPrinciple = (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Users user = userPrinciple.getUsers();
+        return "applied-jobs";
+    }
 }
