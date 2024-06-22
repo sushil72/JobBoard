@@ -9,6 +9,7 @@ import com.JobBoardproject.JobBoard.model.Users;
 import com.JobBoardproject.JobBoard.repository.ApplicationRepository;
 import com.JobBoardproject.JobBoard.repository.JobRepository;
 import com.JobBoardproject.JobBoard.repository.Profile;
+import com.JobBoardproject.JobBoard.services.ApplicationService;
 import com.JobBoardproject.JobBoard.services.JobService;
 import com.JobBoardproject.JobBoard.services.UserService;
 import jakarta.annotation.Resource;
@@ -38,6 +39,8 @@ public class CondidateController {
     UserService userService;
     @Autowired
     private JobRepository jobRepository;
+    @Autowired
+    private JobService jobService;
 
 
     @GetMapping("/profile")
@@ -75,7 +78,6 @@ public class CondidateController {
             foundProfile.get().setJobtitle(profile.getJobtitle());
             foundProfile.get().setLocation(profile.getLocation());
             foundProfile.get().setPhone(profile.getPhone());
-
             CondidateRepo.save(foundProfile.get());
 
         } else {
@@ -128,12 +130,27 @@ public class CondidateController {
 
     @Autowired
     private ApplicationRepository applicationRepository;
+    @Autowired
+    ApplicationService appService;
 
     @GetMapping("/applied_jobs")
     public String viewProfile(Model model) {
+
         // Retrieve the logged-in user
         UserPrinciple userPrinciple = (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Users user = userPrinciple.getUsers();
+        Application application = applicationRepository.findById(user.getId()).get();
+        System.out.println("Logged in user is :"+user.getId());
+//        System.out.println("Application is :"+application.getJob());
+
+        List<Job> jobs =appService.getJobsByCandidateId(user.getId());
+        System.out.println("All job present in the application");
+        System.out.println(jobs);
+        model.addAttribute("jobs", jobs);
+        model.addAttribute("application", application);
+
         return "applied-jobs";
     }
+
+
 }

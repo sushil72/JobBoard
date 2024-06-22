@@ -1,11 +1,15 @@
 package com.JobBoardproject.JobBoard.services;
 
 import com.JobBoardproject.JobBoard.model.Application;
+import com.JobBoardproject.JobBoard.model.Job;
 import com.JobBoardproject.JobBoard.repository.ApplicationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class ApplicationService {
     @Autowired
@@ -38,5 +42,9 @@ public class ApplicationService {
 
     public void deleteApp(Long id) {
         applicationRepository.deleteById(id);
+    }
+
+    public List<Job> getJobsByCandidateId(Long id) {
+        return new ArrayList<>(applicationRepository.findAllByCandidateId(id));
     }
 }

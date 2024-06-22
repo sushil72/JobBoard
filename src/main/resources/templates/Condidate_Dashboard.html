@@ -22,17 +22,17 @@
 
 <div class="flex h-screen py-16">
     <!-- Left-side menu -->
-    <div class="w-1/4 bg-white shadow-lg   ">
+    <div class="w-1/4 bg-white shadow-lg  h-screen ">
         <div class="p-6">
             <h2 class="text-2xl font-bold mb-8">Dashboard</h2>
             <ul class="space-y-4">
                 <li>
-                    <a href="/condidate/profile" class="flex items-center p-2 text-gray-600 hover:bg-gray-200 rounded-lg">
+                    <a href="/condidate/profile" class="flex bg-gray-300 items-center p-2 text-gray-600 hover:bg-gray-200 rounded-lg">
                         <i class="fas fa-user mr-3"></i> My Profile
                     </a>
                 </li>
                 <li>
-                    <a th:href="@{/condidate/applied_jobs}" class="flex items-center p-2 text-gray-600 hover:bg-gray-200 rounded-lg">
+                    <a th:href="@{/candidate/applied_jobs}" class="flex items-center p-2 text-gray-600 hover:bg-gray-200 rounded-lg">
                         <i class="fas fa-briefcase mr-3"></i> Applied Jobs
                     </a>
                 </li>
@@ -42,7 +42,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center p-2 text-gray-600 hover:bg-gray-200 rounded-lg">
+                    <a href="/logout" class="flex items-center p-2 text-gray-600 hover:bg-gray-200 rounded-lg">
                         <i class="fas fa-sign-out-alt mr-3"></i> Logout
                     </a>
                 </li>
@@ -56,10 +56,10 @@
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-6">
 
-                    <img th:if="${candidate.profileImage != null}" th:src="@{/profileImage/{id}(id=${candidate.id})}" alt="Profile Picture" class="w-24 h-24 rounded-full">
+<!--                    <img th:if="${candidate.profileImage != null}" th:src="@{/profileImage/{id}(id=${candidate.id})}" alt="Profile Picture" class="w-24 h-24 rounded-full">-->
 
                     <!--                        <img th:if="${candidate.profileImage != null}" th:src="@{/profileImage/{id}(id=${candidate.id})}" alt="Profile Picture" class="w-32 h-32 rounded-full object-cover mx-auto">-->
-                        <p th:if="${candidate.profileImage == null}" class="text-center text-gray-500">No Profile Picture</p>
+<!--                        <p th:if="${candidate.profileImage == null}" class="text-center text-gray-500">No Profile Picture</p>-->
 
                     <div>
                         <h2 class="text-2xl font-bold" id="candidateName" th:text="${User.username}">John Doe</h2>

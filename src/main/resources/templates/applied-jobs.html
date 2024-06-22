@@ -5,22 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Applied Jobs</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
 </head>
 <body>
-
-<div class="flex h-screen py-16">
+<div th:include="navbar.html"></div>
+<div class="flex  py-16">
     <!-- Left-side menu -->
-    <div class="w-1/4 bg-white shadow-lg">
+    <div class="w-1/4 bg-white shadow-lg h-screen">
         <div class="p-6">
             <h2 class="text-2xl font-bold mb-8">Dashboard</h2>
             <ul class="space-y-4">
                 <li>
-                    <a href="/condidate/profile" class="flex items-center p-2 text-gray-600 hover:bg-gray-200 rounded-lg">
+                    <a href="/candidate/profile" class="flex items-center p-2 text-gray-600 hover:bg-gray-200 rounded-lg">
                         <i class="fas fa-user mr-3"></i> My Profile
                     </a>
                 </li>
                 <li>
-                    <a href="/applied_jobs" class="flex items-center p-2 text-gray-600 hover:bg-gray-200 rounded-lg">
+                    <a href="/applied_jobs" class="flex bg-gray-300 items-center p-2 text-gray-600 hover:bg-gray-200 rounded-lg">
                         <i class="fas fa-briefcase mr-3"></i> Applied Jobs
                     </a>
                 </li>
@@ -30,7 +32,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center p-2 text-gray-600 hover:bg-gray-200 rounded-lg">
+                    <a href="/logout" class="flex items-center p-2 text-gray-600 hover:bg-gray-200 rounded-lg">
                         <i class="fas fa-sign-out-alt mr-3"></i> Logout
                     </a>
                 </li>
@@ -39,32 +41,49 @@
     </div>
 
     <!-- Right-side applied jobs -->
-    <div class="w-3/4 bg-gray-100 p-6">
+    <div class="w-3/4 bg-gray-100 p-6" >
         <h2 class="text-2xl font-bold mb-6">Applied Jobs</h2>
         <div th:if="${jobs.isEmpty()}">
             <p class="text-gray-600">You have not applied for any jobs yet.</p>
         </div>
-        <div th:if="${!jobs.isEmpty()}">
-            <div class="space-y-4">
-                <div th:each="job, iter : ${jobs}">
-                    <div class="bg-white p-6 rounded-lg shadow-md">
-                        <h3 class="text-xl font-semibold text-gray-800" th:text="">Job Title</h3>
-                        <p class="text-gray-600 mt-2" th:text="">Job Description</p>
-                        <p class="text-gray-600 mt-2" th:text="${job.companyName}">Company Name</p>
-                        <div class="mt-4">
-                            <span class="text-gray-700 font-bold">Application Status:</span>
-                            <span class="text-gray-600" th:text="">Pending</span>
+        <div th:if="${!jobs.isEmpty()} " >
+            <div class="space-y-4 border px-14 py-10 bg-white rounded-xl">
+                <div th:each="job, iter : ${jobs} " >
+
+                    <div class="flex items-center ">
+                        <img src="/images/1-1.webp" alt="Company Logo" class="w-14 rounded-lg mr-6">
+                        <div class="">
+                            <h3 class="text-xl font-semibold hover:cursor-pointer" th:text="${job.title}">Job Title</h3>
+                            <div class="flex items-center text-gray-600 mt-4">
+                                <span class="mr-4"><i class="fas fa-briefcase"></i> <span th:text="${job.companyName}">Company Name</span></span>
+                                <span class="mr-4"><i class="fas fa-map-marker-alt"></i> <span
+                                        th:text="${job.location}">Location</span></span>
+                                <span class="mr-4"><i class="fas fa-clock"></i> <span
+                                        th:text="${job.formattedPostedTime}">Posted Time</span></span>
+                                <span><i class="fas fa-money-bill-wave"></i> <span th:text="${job.salary}">Salary</span></span>
+                            </div>
                         </div>
-                        <div class="mt-4">
-                            <span class="text-gray-700 font-bold">Cover Letter:</span>
-                            <p class="text-gray-600 mt-2" th:text=""></p>
+                        <div id="status">
+                        <h2 th:text="${application.status}">Pending</h2>
                         </div>
+                    </div>
+                    <div class="flex  mt-2">
+                        <!-- Check if 'Full Time' job type is present -->
+                        <span th:if="${job.jobTypes.contains('Full Time')}" class="bg-blue-100  text-blue-800 px-8  rounded-full">Full Time</span>
+
+                        <!-- Check if 'Private' job type is present -->
+                        <span th:if="${job.jobTypes.contains('Private')}" class="bg-green-100 text-green-800 px-3 py-1 rounded-full">Private</span>
+
+                        <!-- Check if 'Urgent' job type is present -->
+                        <span th:if="${job.jobTypes.contains('Urgent')}" class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full">Urgent</span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
 
 </body>
 </html>
