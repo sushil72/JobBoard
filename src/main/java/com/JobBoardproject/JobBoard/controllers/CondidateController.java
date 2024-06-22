@@ -29,7 +29,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/condidate")
+@RequestMapping("/candidate")
 public class CondidateController {
 
     @Autowired
@@ -47,7 +47,11 @@ public class CondidateController {
         Users user = userPrinciple.getUsers();
 
         Optional<Condidate_Profile> foundByUsername = CondidateRepo.findById(user.getId());
-        foundByUsername.ifPresent(profile -> model.addAttribute("candidate", profile));
+        if (foundByUsername.isPresent()) {
+            model.addAttribute("candidate", foundByUsername.get());
+        } else {
+            model.addAttribute("candidate", null);
+        }
         model.addAttribute("User", user);
 
         // Add user details to the model
@@ -78,7 +82,7 @@ public class CondidateController {
 
             throw new UserNotFoundException("User Not Found");
         }
-        return "redirect:/condidate/profile";
+        return "redirect:/candidate/profile";
     }
 
 
@@ -119,7 +123,7 @@ public class CondidateController {
         foundprofile.get().setExperience(profile.getExperience());
 //        foundprofile.get().setAbout(profile.getAbout());
         CondidateRepo.save(foundprofile.get());
-        return "redirect:/condidate/profile";
+        return "redirect:/candidate/profile";
     }
 
     @Autowired

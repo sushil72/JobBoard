@@ -111,7 +111,7 @@ public class ApplicationController {
         // Save the application
         appreopo.save(application);
 
-        return "redirect:/condidate/profile";
+        return "redirect:/candidate/profile";
     }
 
     @GetMapping("/edit/{id}")

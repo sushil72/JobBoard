@@ -20,7 +20,7 @@ public class HomeController {
     JobService jobService;
     UserService userService;
 
-    @GetMapping({"index","/"})
+    @GetMapping({"home","/"})
     public String Home(Model model) {
         List<Job> jobs = jobService.getAllJobs();
         if (jobs.isEmpty()) {

@@ -8,7 +8,7 @@
             <a href="/home" class="mr-4">Home</a>
             <a href="/findjobs" class="mr-4">Find Jobs</a>
             <a href="/employee" class="mr-4">Employee</a>
-            <a th:href="@{/condidate/profile}" class="mr-4">Candidate</a>
+            <a th:href="@{/candidate/profile}" class="mr-4">Candidate</a>
 
             <a href="/contact" class="mr-4">Contact</a>
         </div>
@@ -21,9 +21,10 @@
             </button>
         </div>
         <div class="hidden md:flex md:space-x-4">
+            <div>
             <a href="/auth/login"
                class="px-4 py-2 border-2 border-white text-white rounded-full hover:bg-white hover:text-blue-800">Login
-                / Register</a>
+                / Register</a> </div>
             <a href="/jobcontrol/new"
                class="px-4 py-2 border-2 border-blue-800 bg-white text-blue-800 rounded-full hover:bg-blue-800 hover:text-white">Job
                 Post</a>

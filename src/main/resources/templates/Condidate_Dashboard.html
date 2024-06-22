@@ -98,7 +98,7 @@
         <!-- Form Section -->
         <div class="w-full py-6 px-4 mt-10 bg-white rounded-lg shadow-lg">
             <h2 class="text-2xl font-bold mb-6">Edit Profile Details</h2>
-            <form th:action="@{/condidate/updateOther/{candidateId} (candidateId=${candidate.id})}" method="post" >
+            <form th:action="@{/candidate/updateOther/{candidateId} (candidateId=${candidate.id})}" method="post" >
                 <!-- About Input -->
                 <div class="mb-4">
                     <label class="block text-gray-700 font-bold mb-2" for="about">About</label>
@@ -159,7 +159,7 @@
             <h3 class="text-xl font-bold">Edit Profile</h3>
             <button id="closeEditProfile" class="text-gray-600 hover:text-gray-900" >&times;</button>
         </div>
-        <form class="mt-4" th:action="@{/condidate/EditModal/{userId} (userId=${User.id})}" method="post" >
+        <form class="mt-4" th:action="@{/candidate/EditModal/{userId} (userId=${User.id})}" method="POST" >
             <div class="mb-4">
                 <label class="block text-gray-700 font-bold mb-2" for="editName">Name</label>
                 <input type="text" id="editName" name="name" th:value="${User.username}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
@@ -194,7 +194,7 @@
             <h3 class="text-xl font-bold">Change Profile Picture</h3>
             <button id="closeChangePic" class="text-gray-600 hover:text-gray-900">&times;</button>
         </div>
-        <form class="mt-4" th:action="@{/condidate/uploadImage/{userId} (userId=${User.id})}" method="post" enctype="multipart/form-data">
+        <form class="mt-4" th:action="@{/candidate/uploadImage/{userId} (userId=${User.id})}" method="post" enctype="multipart/form-data">
             <div class="mb-4">
                 <label class="block text-gray-700 font-bold mb-2" for="profilePic">Upload Picture</label>
                 <input type="file" id="profilePic"  name="profilePic" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
