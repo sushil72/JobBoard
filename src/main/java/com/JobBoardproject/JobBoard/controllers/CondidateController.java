@@ -1,5 +1,6 @@
 package com.JobBoardproject.JobBoard.controllers;
 
+import com.JobBoardproject.JobBoard.Exception.ResourceNotFoundException;
 import com.JobBoardproject.JobBoard.Exception.UserNotFoundException;
 import com.JobBoardproject.JobBoard.config.UserPrinciple;
 import com.JobBoardproject.JobBoard.model.Application;
@@ -13,17 +14,27 @@ import com.JobBoardproject.JobBoard.services.ApplicationService;
 import com.JobBoardproject.JobBoard.services.JobService;
 import com.JobBoardproject.JobBoard.services.UserService;
 import jakarta.annotation.Resource;
+import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -43,6 +54,7 @@ public class CondidateController {
     private JobService jobService;
 
 
+
     @GetMapping("/profile")
     public String profile(Model model) {
         // Get the logged-in user's details
@@ -52,10 +64,12 @@ public class CondidateController {
         Optional<Condidate_Profile> foundByUsername = CondidateRepo.findById(user.getId());
         if (foundByUsername.isPresent()) {
             model.addAttribute("candidate", foundByUsername.get());
-        } else {
-            model.addAttribute("candidate", null);
+        }
+        else {
+            throw  new UserNotFoundException("User not found");
         }
         model.addAttribute("User", user);
+
 
         // Add user details to the model
 //        model.addAttribute("username", user.getUsername());
@@ -88,31 +102,33 @@ public class CondidateController {
     }
 
 
+
+
+    @Value("${user.dir}")
+    private String userDir;
+
     @PostMapping("/uploadImage/{id}")
-    public String uploadImage(@PathVariable Long id, @RequestParam("profilePic") MultipartFile file, Model model) throws IOException {
-        Optional<Condidate_Profile> foundProfile = CondidateRepo.findById(id);
-
-        if (foundProfile.isPresent()) {
-            Condidate_Profile profile = foundProfile.get();
-            if (!file.isEmpty()) {
-                profile.setProfileImage(file.getBytes());
+    public String uploadImage(@PathVariable Long id, @RequestParam("profilePic") MultipartFile file) throws IOException {
+        Optional<Condidate_Profile> profile = CondidateRepo.findById(id);
+        if (profile.isPresent()) {
+            profile.get().setProfileImage(file.getOriginalFilename());
+            Condidate_Profile uploaded = CondidateRepo.save(profile.get());
+            if (uploaded != null) {
+                try {
+                    String uploadDir = userDir + "/src/main/resources/static/Profile_Pictures";
+                    Path path = Paths.get(uploadDir + File.separator + file.getOriginalFilename());
+                    System.out.println("Path " + path);
+                    Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-            CondidateRepo.save(profile);
-        } else {
-            throw new UserNotFoundException("User Not Found");
         }
-
         return "redirect:/candidate/profile";
     }
 
-    @GetMapping("/profileImage/{id}")
-    public ResponseEntity<Resource> getProfileImage(@PathVariable Long id) {
-        Condidate_Profile profile = CondidateRepo.findById(id)
-                .orElseThrow(() -> new UserNotFoundException("User not found"));
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"profile-pic.jpg\"")
-                .body((Resource) new ByteArrayResource(profile.getProfileImage()));
-    }
+
+//
 
 
     @PostMapping("/updateOther/{id}")
@@ -127,6 +143,9 @@ public class CondidateController {
         CondidateRepo.save(foundprofile.get());
         return "redirect:/candidate/profile";
     }
+
+
+
 
     @Autowired
     private ApplicationRepository applicationRepository;
@@ -148,7 +167,6 @@ public class CondidateController {
         System.out.println(jobs);
         model.addAttribute("jobs", jobs);
         model.addAttribute("application", application);
-
         return "applied-jobs";
     }
 

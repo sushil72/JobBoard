@@ -22,9 +22,9 @@ public class Condidate_Profile {
     private String phone;
     @ElementCollection
     private List<String> skills;
-    @Lob
-    @Column(name = "profile_image", columnDefinition="LONGBLOB")
-    private byte[] profileImage;
+
+    @Column(name = "profile_image")
+    private String profileImage;
     private String linkedinUrl;
     private String githubUrl;
     private String experience;
