@@ -1,10 +1,142 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employer Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-$END$
+<body class="bg-gray-100">
+
+<!--nabar-->
+<div th:include="navbar.html"></div>
+<div class="flex h-screen">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white shadow-md mt-20">
+        <div class="p-4">
+            <h2 class="text-2xl font-semibold text-gray-800"> Employer</h2>
+        </div>
+        <nav class="mt-10  space-x-8">
+            <a href="/Employer/companyprofile" class="block py-2 px-4 text-gray-700 hover:bg-blue-500 hover:text-white">Company Profile</a>
+            <a href="#" class="block py-2 px-4 text-gray-700 bg-blue-100 font-medium">Post A New Job</a>
+            <a href="#" class="block py-2 px-4 text-gray-700 hover:bg-blue-500 hover:text-white">Manage Jobs</a>
+            <a href="#" class="block py-2 px-4 text-gray-700 hover:bg-blue-500 hover:text-white">All Applicants</a>
+            <a href="#" class="block py-2 px-4 text-gray-700 hover:bg-blue-500 hover:text-white">Shortlisted Resumes</a>
+            <a href="#" class="block py-2 px-4 text-gray-700 hover:bg-blue-500 hover:text-white">Change Password</a>
+            <a href="#" class="block py-2 px-4 text-gray-700 hover:bg-blue-500 hover:text-white">Logout</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-8">
+        <h1 class="text-3xl font-bold text-gray-800 mb-4">Post a New Job!</h1>
+        <p class="text-gray-600 mb-8">Ready to jump back in?</p>
+
+        <div class="bg-white shadow-md rounded-lg p-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Post Job</h2>
+
+            <div class="flex justify-between mb-8">
+                <div class="flex items-center">
+                    <div class="bg-blue-100 p-3 rounded-full mr-3">
+                        <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <span class="font-medium text-gray-700">Job Detail</span>
+                </div>
+                <div class="flex items-center">
+                    <div class="bg-blue-100 p-3 rounded-full mr-3">
+                        <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <span class="font-medium text-gray-700">Package & Payments</span>
+                </div>
+                <div class="flex items-center">
+                    <div class="bg-blue-100 p-3 rounded-full mr-3">
+                        <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <span class="font-medium text-gray-700">Confirmation</span>
+                </div>
+            </div>
+
+            <form action="/jobcontrol/save" method="post" enctype="multipart/form-data">
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2" for="title">Job Title</label>
+                    <input type="text" id="title" name="title" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2" for="companyName">Company Name</label>
+                    <input type="text" id="companyName" name="companyName" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2" for="location">Location</label>
+                    <input type="text" id="location" name="location" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2" for="postedTime">Posted Time</label>
+                    <input type="datetime-local" id="postedTime" name="postedTime" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2" for="expiryDate">Expiry Date</label>
+                    <input type="datetime-local" id="expiryDate" name="expiryDate" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2" for="salary">Salary</label>
+                    <input type="text" id="salary" name="salary" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2" for="jobTypes">Job Types</label>
+                    <select id="jobTypes" name="jobTypes" multiple class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                        <option value="Part Time">Part Time</option>
+                        <option value="Full Time">Full Time</option>
+                        <option value="Temporary">Temporary</option>
+                        <option value="Private">Private</option>
+                        <option value="Urgent">Urgent</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2" for="skills">Skills</label>
+                    <select id="skills" name="skills" multiple class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                        <option value="Java">Java</option>
+                        <option value="Spring">Spring</option>
+                        <option value="Hibernate">Hibernate</option>
+                        <option value="JavaScript">JavaScript</option>
+                        <option value="React">React</option>
+                        <option value="Angular">Angular</option>
+                        <option value="Python">Python</option>
+                        <option value="Django">Django</option>
+                        <option value="Flask">Flask</option>
+                        <option value="SQL">SQL</option>
+                        <option value="NoSQL">NoSQL</option>
+                        <option value="HTML">HTML</option>
+                        <option value="CSS">CSS</option>
+                        <option value="TypeScript">TypeScript</option>
+                        <option value="Node.js">Node.js</option>
+                        <option value="Express.js">Express.js</option>
+                        <option value="Ruby on Rails">Ruby on Rails</option>
+                        <option value="PHP">PHP</option>
+                        <option value="Laravel">Laravel</option>
+                        <option value="C#">C#</option>
+                        <option value=".NET">.NET</option>
+                        <option value="Swift">Swift</option>
+                        <option value="Kotlin">Kotlin</option>
+                        <option value="Objective-C">Objective-C</option>
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2" for="description">Job Description</label>
+                    <textarea id="description" name="description" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required></textarea>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2" for="keyFeatures">Key Features</label>
+                    <textarea id="keyFeatures" name="keyFeatures" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required></textarea>
+                </div>
+                <div class="flex items-center justify-between">
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                        Post Job
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
 </body>
 </html>
