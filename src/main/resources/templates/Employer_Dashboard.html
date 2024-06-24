@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"  lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,28 +9,26 @@
 <body class="bg-gray-100">
 
 <!--nabar-->
-<div th:include="navbar.html"></div>
+<div th:include="navbar.html" class="mb-8"></div>
 <div class="flex h-screen">
     <!-- Sidebar -->
-    <aside class="w-64 bg-white shadow-md mt-20">
-        <div class="p-4">
+    <aside class="w-64 bg-white shadow-md mt-10 py-10">
+        <div class="px-6">
             <h2 class="text-2xl font-semibold text-gray-800"> Employer</h2>
         </div>
-        <nav class="mt-10  space-x-8">
+        <nav class="space-x-8">
             <a href="/Employer/companyprofile" class="block py-2 px-4 text-gray-700 hover:bg-blue-500 hover:text-white">Company Profile</a>
-            <a href="#" class="block py-2 px-4 text-gray-700 bg-blue-100 font-medium">Post A New Job</a>
-            <a href="#" class="block py-2 px-4 text-gray-700 hover:bg-blue-500 hover:text-white">Manage Jobs</a>
+            <a href="/Employer/profile" class="block py-2 px-4 text-gray-700 bg-blue-100 font-medium">Post A New Job</a>
+            <a href="/Employer/manage-jobs" class="block py-2 px-4 text-gray-700 hover:bg-blue-500 hover:text-white">Manage Jobs</a>
             <a href="#" class="block py-2 px-4 text-gray-700 hover:bg-blue-500 hover:text-white">All Applicants</a>
             <a href="#" class="block py-2 px-4 text-gray-700 hover:bg-blue-500 hover:text-white">Shortlisted Resumes</a>
             <a href="#" class="block py-2 px-4 text-gray-700 hover:bg-blue-500 hover:text-white">Change Password</a>
-            <a href="#" class="block py-2 px-4 text-gray-700 hover:bg-blue-500 hover:text-white">Logout</a>
+            <a href="/logout" class="block py-2 px-4 text-gray-700 hover:bg-blue-500 hover:text-white">Logout</a>
         </nav>
     </aside>
 
     <!-- Main Content -->
-    <main class="flex-1 p-8">
-        <h1 class="text-3xl font-bold text-gray-800 mb-4">Post a New Job!</h1>
-        <p class="text-gray-600 mb-8">Ready to jump back in?</p>
+    <main class="flex-1 px-8 py-16">
 
         <div class="bg-white shadow-md rounded-lg p-6">
             <h2 class="text-xl font-semibold text-gray-800 mb-4">Post Job</h2>
@@ -57,33 +55,43 @@
             </div>
 
             <form action="/jobcontrol/save" method="post" enctype="multipart/form-data">
-                <div class="mb-4">
+                <div class="flex gap-4">
+
+
+                <div class="mb-4 w-full" >
                     <label class="block text-gray-700 font-bold mb-2" for="title">Job Title</label>
-                    <input type="text" id="title" name="title" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                    <input type="text"  id="title" name="title" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                 </div>
-                <div class="mb-4">
+                <div class="mb-4 w-full">
                     <label class="block text-gray-700 font-bold mb-2" for="companyName">Company Name</label>
-                    <input type="text" id="companyName" name="companyName" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                    <input type="text" id="companyName" name="companyName" class="shadow py-3 px-4 appearance-none border rounded w-full  text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                 </div>
-                <div class="mb-4">
+                </div>
+                <div class="flex gap-4">
+                <div class="mb-4 w-full" >
                     <label class="block text-gray-700 font-bold mb-2" for="location">Location</label>
-                    <input type="text" id="location" name="location" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                    <input type="text" id="location" name="location" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                 </div>
-                <div class="mb-4">
+                    <div class="mb-4 w-full">
+                        <label class="block text-gray-700 font-bold mb-2" for="salary">Salary</label>
+                        <input type="text" id="salary" name="salary" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                <div class="mb-4 w-full">
                     <label class="block text-gray-700 font-bold mb-2" for="postedTime">Posted Time</label>
-                    <input type="datetime-local" id="postedTime" name="postedTime" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                    <input type="datetime-local" id="postedTime" name="postedTime" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                 </div>
-                <div class="mb-4">
+                <div class="mb-4 w-full">
                     <label class="block text-gray-700 font-bold mb-2" for="expiryDate">Expiry Date</label>
-                    <input type="datetime-local" id="expiryDate" name="expiryDate" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                    <input type="datetime-local" id="expiryDate" name="expiryDate" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                 </div>
-                <div class="mb-4">
-                    <label class="block text-gray-700 font-bold mb-2" for="salary">Salary</label>
-                    <input type="text" id="salary" name="salary" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                 </div>
-                <div class="mb-4">
+
+                <div class="flex gap-4">
+                <div class="mb-4 w-full">
                     <label class="block text-gray-700 font-bold mb-2" for="jobTypes">Job Types</label>
-                    <select id="jobTypes" name="jobTypes" multiple class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                    <select id="jobTypes" name="jobTypes" multiple class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                         <option value="Part Time">Part Time</option>
                         <option value="Full Time">Full Time</option>
                         <option value="Temporary">Temporary</option>
@@ -91,9 +99,9 @@
                         <option value="Urgent">Urgent</option>
                     </select>
                 </div>
-                <div class="mb-4">
+                <div class="mb-4 w-full">
                     <label class="block text-gray-700 font-bold mb-2" for="skills">Skills</label>
-                    <select id="skills" name="skills" multiple class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                    <select id="skills" name="skills" multiple class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                         <option value="Java">Java</option>
                         <option value="Spring">Spring</option>
                         <option value="Hibernate">Hibernate</option>
@@ -120,14 +128,16 @@
                         <option value="Objective-C">Objective-C</option>
                     </select>
                 </div>
-
-                <div class="mb-4">
-                    <label class="block text-gray-700 font-bold mb-2" for="description">Job Description</label>
-                    <textarea id="description" name="description" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required></textarea>
                 </div>
-                <div class="mb-4">
+                <div class="flex gap-4">
+                <div class="mb-4 w-full">
+                    <label class="block text-gray-700 font-bold mb-2" for="description">Job Description</label>
+                    <textarea id="description" name="description" class="shadow  h-40 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required></textarea>
+                </div>
+                <div class="mb-4 w-full">
                     <label class="block text-gray-700 font-bold mb-2" for="keyFeatures">Key Features</label>
-                    <textarea id="keyFeatures" name="keyFeatures" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required></textarea>
+                    <textarea id="keyFeatures" name="keyFeatures" class="shadow h-40 appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required></textarea>
+                </div>
                 </div>
                 <div class="flex items-center justify-between">
                     <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">

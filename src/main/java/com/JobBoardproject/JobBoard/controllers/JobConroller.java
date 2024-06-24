@@ -36,12 +36,6 @@ public class JobConroller {
     }
 
 
-    @GetMapping("/new")
-    public String newJob(Model model) {
-        model.addAttribute("job", new Job());
-        return "job-form";
-    }
-
     @PostMapping("/save")
     public String saveJob(@ModelAttribute("job") Job job) {
         Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -50,8 +44,8 @@ public class JobConroller {
         logger.info("Job object received: {}", job);
 
         // You can also print the object or its fields
-        System.out.println("Job Title: " + job.getTitle());
-        System.out.println("Job Description: " + job.getDescription());
+//        System.out.println("Job Title: " + job.getTitle());
+//        System.out.println("Job Description: " + job.getDescription());
         // Print other fields as needed
         jobService.createJob(job);
         return "redirect:/jobcontrol/jobs";
@@ -64,15 +58,5 @@ public class JobConroller {
         return "job-form";
     }
 
-    @PostMapping("/update/{id}")
-    public String updateJob(@PathVariable Long id, @ModelAttribute("job") Job jobDetails) {
-        jobService.updateJob(id, jobDetails);
-        return "redirect:/jobcontrol/jobs";
-    }
 
-    @GetMapping("/delete/{id}")
-    public String deleteJob(@PathVariable Long id) {
-        jobService.deleteJob(id);
-        return "redirect:/jobcontrol/jobs";
-    }
 }

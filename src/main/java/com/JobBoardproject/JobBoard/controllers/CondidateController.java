@@ -22,6 +22,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,6 +43,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/candidate")
+
 public class CondidateController {
 
     @Autowired
@@ -153,6 +155,7 @@ public class CondidateController {
     ApplicationService appService;
 
     @GetMapping("/applied_jobs")
+
     public String viewProfile(Model model) {
 
         // Retrieve the logged-in user

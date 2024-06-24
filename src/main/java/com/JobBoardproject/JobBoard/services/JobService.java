@@ -16,9 +16,7 @@ public class JobService {
         return jobRepository.findAll();
     }
 
-    public Job saveJob(Job job) {
-        return jobRepository.save(job);
-    }
+
 
     public void createJob(Job job) {
         jobRepository.save(job);
@@ -26,12 +24,7 @@ public class JobService {
 
     public Job getJobById(Long id) {
         Job job = jobRepository.findByID(id);
-//        for (Job j : jobRepository.findAll()) {
-//            if (j.getId()==id) {
-//                job = j;
-//                break;
-//            }
-//        }
+
         return job;
     }
 
@@ -48,5 +41,9 @@ public class JobService {
     public void deleteJob(Long id) {
         Job job = getJobById(id);
         jobRepository.delete(job);
+    }
+
+    public List<Job> getJobsByEmpId(Long id) {
+        return jobRepository.findbyEmpID(id);
     }
 }

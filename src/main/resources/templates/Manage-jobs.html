@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="mb-10" th:include="navbar.html"></div>
+<!--    sidebar-->
+<div class="flex h-screen">
+    <aside class="w-64 bg-white shadow-md mt-20 h-screen">
+        <div class="p-4">
+            <h2 class="text-2xl font-semibold text-gray-800"> Employer</h2>
+        </div>
+        <nav class="mt-6  space-x-8">
+            <a href="/Employer/companyprofile" class="block py-2 px-4 text-gray-700  hover:bg-blue-500 hover:text-white">Company Profile</a>
+            <a href="/Employer/profile" class="block py-2 px-4 text-gray-700 hover:bg-blue-500  hover:text-white">Post A New Job</a>
+            <a href="/Employer/manage-jobs" class="block py-2 px-4 text-gray-700 hover:bg-blue-500 font-medium bg-blue-100 hover:bg-blue-500 hover:text-white hover:text-white">Manage Jobs</a>
+            <a href="#" class="block py-2 px-4 text-gray-700 hover:bg-blue-500 hover:text-white">All Applicants</a>
+            <a href="#" class="block py-2 px-4 text-gray-700 hover:bg-blue-500 hover:text-white">Shortlisted Resumes</a>
+            <a href="#" class="block py-2 px-4 text-gray-700 hover:bg-blue-500 hover:text-white">Packages</a>
+            <a href="#" class="block py-2 px-4 text-gray-700 hover:bg-blue-500 hover:text-white">Messages</a>
+            <a href="#" class="block py-2 px-4 text-gray-700 hover:bg-blue-500 hover:text-white">Resume Alerts</a>
+            <a href="#" class="block py-2 px-4 text-gray-700 hover:bg-blue-500 hover:text-white">Change Password</a>
+            <a href="/logout" class="block py-2 px-4 text-gray-700 hover:bg-blue-500 hover:text-white">Logout</a>
+        </nav>
+    </aside>
+    <main class="flex-1 py-8">
+
+        <section class="py-10 w-5/6 mx-auto">
+            <div class="container mx-auto px-4">
+                <h2 class="text-2xl font-bold mb-6">Manage Your Jobs</h2>
+                <div class="space-y-6">
+                    <!-- Job card (repeat this structure for each job) -->
+                    <div th:each="job : ${jobs}" class="bg-white rounded-lg shadow-md py-6 px-6 flex items-center justify-between fade-in">
+                        <div class="flex items-center flex-grow">
+                            <img src="/images/1-1.webp" alt="Company Logo" class="w-14 rounded-lg mr-6">
+                            <div class="flex-grow">
+                                <h3 class="text-xl font-semibold" th:text="${job.title}">Job Title</h3>
+                                <div class="flex items-center text-gray-600 mt-2 flex-wrap">
+                                    <span class="mr-4"><i class="fas fa-briefcase mr-1"></i> <span th:text="${job.companyName}">Company Name</span></span>
+                                    <span class="mr-4"><i class="fas fa-map-marker-alt mr-1"></i> <span th:text="${job.location}">Location</span></span>
+                                    <span class="mr-4"><i class="fas fa-clock mr-1"></i> <span th:text="${job.postedTime}">Posted Time</span></span>
+                                    <span class="mr-4"><i class="fas fa-money-bill-wave mr-1"></i> <span th:text="${job.salary}">Salary</span></span>
+                                </div>
+                                <div class="mt-2">
+                                    <span th:each="type : ${job.jobTypes}" class="bg-blue-100 text-blue-800 text-sm px-2 py-1 rounded-full mr-2" th:text="${type}">Job Type</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col space-y-2 ml-4">
+                            <a th:href="@{/employer/edit-job/{id}(id=${job.id})}" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md text-sm">
+                                <i class="fas fa-edit mr-2"></i>Edit
+                            </a>
+                            <form th:action="@{/employer/delete-job/{id}(id=${job.id})}" method="post" onsubmit="return confirm('Are you sure you want to delete this job?');">
+                                <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md text-sm w-full">
+                                    <i class="fas fa-trash-alt mr-2"></i>Delete
+                                </button>
+                            </form>
+                            <a th:href="@{/jobcontroll/view-applicants/{id}(id=${job.id})}" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md text-sm text-center">
+                                <i class="fas fa-users mr-2"></i>View Jobs
+                            </a>
+                        </div>
+                    </div>
+                    <!-- End of job card -->
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+</body>
+</html>
