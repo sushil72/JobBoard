@@ -5,6 +5,7 @@ import com.JobBoardproject.JobBoard.model.Job;
 import com.JobBoardproject.JobBoard.services.JobService;
 import com.JobBoardproject.JobBoard.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -22,15 +23,14 @@ public class HomeController {
     JobService jobService;
     UserService userService;
 
-    @GetMapping({"home","/"})
+    @GetMapping("/")
     public String Home(Model model) {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        boolean isLoggedIn = authentication != null && authentication.isAuthenticated() &&
-                !(authentication.getPrincipal() instanceof String && authentication.getPrincipal().equals("anonymousUser"));
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean isAuthenticated = auth != null && auth.isAuthenticated() && !(auth instanceof AnonymousAuthenticationToken);
+        model.addAttribute("isAuthenticated", isAuthenticated);
 
-        model.addAttribute("isLoggedIn", isLoggedIn);
-
+        //get All jobs
         List<Job> jobs = jobService.getAllJobs();
         if (jobs.isEmpty()) {
             model.addAttribute("message", "No Job Found");
@@ -51,8 +51,10 @@ public class HomeController {
         }
         return "single-job";
     }
-    @GetMapping("/condidate")
-    public String condidate(Model model)
+
+
+    @GetMapping("/candidate")
+    public String candidate(Model model)
     {
 
         return "Condidate_Profile";

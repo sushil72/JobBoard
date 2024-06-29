@@ -1,13 +1,15 @@
 <nav class="bg-blue-900 p-4 text-white fixed top-0 w-full transition ease-in-out duration-300 z-50 "
-     xmlns:sec="http://www.w3.org/1999/xhtml">
+     xmlns:sec="http://www.thymeleaf.org/extras/spring-security" th:fragment="navbar" xmlns:th="http://www.thymeleaf.org">
     <div class="container mx-auto flex justify-between items-center ">
         <div class="flex items-center">
             <img src="https://superio-appdir.vercel.app/images/logo-2.svg" alt="Logo" class="h-10">
             <!-- <a href="/" class="text-lg font-bold"></a> -->
         </div>
+
+
         <div class="hidden md:flex md:items-center">
-            <a href="/home" class="mr-4">Home</a>
-            <a href="/findjobs" class="mr-4">Find Jobs</a>
+            <a href="/" class="mr-4">Home</a>
+            <a href="/jobcontrol/findjobs" class="mr-4">Find Jobs</a>
             <a href="/Employer/profile" class="mr-4">Employee</a>
             <a th:href="@{/candidate/profile}" class="mr-4">Candidate</a>
 
@@ -21,29 +23,49 @@
                 </svg>
             </button>
         </div>
-        <div class="hidden md:flex md:space-x-4">
+        <div class="hidden md:flex md:space-x-4" th:if="${#authorization.expression('!isAuthenticated()')}">
             <div>
                 <a href="/auth/login"
-                   class="px-4 py-2 border-2 border-white text-white rounded-full hover:bg-white hover:text-blue-800">Login
-                    / Register</a></div>
+                   class="px-4 py-2 border-2 border-white text-white rounded-full hover:bg-white hover:text-blue-800">
+                    Login / Register
+                </a>
+            </div>
             <a href="/Employer/profile"
                class="px-4 py-2 border-2 border-blue-800 bg-white text-blue-800 rounded-full hover:bg-blue-800 hover:text-white">
-            JobPost</a>
+                JobPost
+            </a>
+        </div>
+        <div th:if="${#authorization.expression('isAuthenticated()')}">
+            <div class="flex items-center space-x-2">
+<!--                <img th:src="@{${user.profilePictureUrl}}" alt="Profile Picture" class="w-8 h-8 rounded-full">-->
+                <span class="text-white"></span>
+<!--                <a href="/user/profile"-->
+<!--                   class="px-4 py-2 border-2 border-white text-white rounded-full hover:bg-white hover:text-blue-800">-->
+<!--                    Profile-->
+<!--                </a>-->
+                <a href="/logout"
+                   class="px-4 py-2 border-2 border-white text-white rounded-full hover:bg-white hover:text-blue-800">
+                    Logout
+                </a>
+            </div>
         </div>
     </div>
+
+<!--    mobile menu-->
+
     <div id="mobile-menu" class="hidden md:hidden mt-4">
         <div class="flex flex-col items-center">
-            <a href="/home" class="py-2">Home</a>
+            <a href="/" class="py-2">Home</a>
             <a href="/findjobs" class="py-2">Find Jobs</a>
-            <a href="/employee" class="py-2">Employee</a>
+            <a href="/Employer/profile" class="py-2">Employee</a>
             <a href="/condidate/profile" class="py-2">Candidate</a>
             <a href="/contact" class="py-2">Contact</a>
-            <div th:if="${!isLoggedIn}">
+            <div >
                 <a href="/auth/login" class="py-2 border-2 border-white text-white rounded-full hover:bg-white hover:text-blue-800 w-full text-center mt-2">
                     Login / Register
                 </a>
             </div>
-            <div th:if="${isLoggedIn}">
+            <div>
                 <a href="/jobcontrol/new"
                    class="py-2 border-2 border-blue-800 bg-white text-blue-800 rounded-full hover:bg-blue-800 hover:text-white w-full text-center mt-2">
                     Job Post

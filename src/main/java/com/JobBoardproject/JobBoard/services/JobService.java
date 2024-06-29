@@ -19,12 +19,24 @@ public class JobService {
 
 
     public void createJob(Job job) {
+        Job job1 = new Job();
+        job1.setTitle(job.getTitle());
+        job1.setDescription(job.getDescription());
+        job1.setEmployer(job.getEmployer());
+        job1.setLocation(job.getLocation());
+//        job1.setApplications(job.getApplications());
+        job1.setJobTypes(job.getJobTypes());
+        job1.setPostedTime(job.getPostedTime());
+        job1.setCompanyName(job.getCompanyName());
+        job1.setExpiryDate(job.getExpiryDate());
+        job1.setSalary(job.getSalary());
+        job1.setId(job.getId());
         jobRepository.save(job);
     }
 
     public Job getJobById(Long id) {
-        Job job = jobRepository.findByID(id);
 
+        Job job = jobRepository.findByID(id);
         return job;
     }
 
@@ -35,6 +47,12 @@ public class JobService {
         job.setTitle(jobDetails.getTitle());
         job.setLocation(jobDetails.getLocation());
         job.setCompanyName(jobDetails.getCompanyName());
+        job.setExpiryDate(jobDetails.getExpiryDate());
+        job.setSalary(jobDetails.getSalary());
+        job.setJobTypes(jobDetails.getJobTypes());
+        job.setPostedTime(jobDetails.getPostedTime());
+        job.setEmployer(jobDetails.getEmployer());
+        job.setSkills(jobDetails.getSkills());
         jobRepository.save(job);
     }
 

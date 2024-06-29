@@ -5,6 +5,17 @@
     <title>Title</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+
+        .modal {
+            transition: opacity 0.25s ease;
+        }
+        body.modal-active {
+            overflow-x: hidden;
+            overflow-y: visible !important;
+        }
+
+    </style>
 </head>
 <body>
 <div class="mb-10" th:include="navbar.html"></div>
@@ -28,7 +39,6 @@
         </nav>
     </aside>
     <main class="flex-1 py-8">
-
         <section class="py-10 w-5/6 mx-auto">
             <div class="container mx-auto px-4">
                 <h2 class="text-2xl font-bold mb-6">Manage Your Jobs</h2>
@@ -51,15 +61,15 @@
                             </div>
                         </div>
                         <div class="flex flex-col space-y-2 ml-4">
-                            <a th:href="@{/employer/edit-job/{id}(id=${job.id})}" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md text-sm">
+                            <a id="jobModal" th:href="@{/Employer/edit-job/{id}(id=${job.id})}" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md text-sm">
                                 <i class="fas fa-edit mr-2"></i>Edit
                             </a>
-                            <form th:action="@{/employer/delete-job/{id}(id=${job.id})}" method="post" onsubmit="return confirm('Are you sure you want to delete this job?');">
+                            <form th:action="@{/Employer/delete-job/{id}(id=${job.id})}" method="get" onsubmit="return confirm('Are you sure you want to delete this job?');">
                                 <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md text-sm w-full">
                                     <i class="fas fa-trash-alt mr-2"></i>Delete
                                 </button>
                             </form>
-                            <a th:href="@{/jobcontroll/view-applicants/{id}(id=${job.id})}" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md text-sm text-center">
+                            <a th:href="@{/Employer/view/{id}(id=${job.id})}" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md text-sm text-center">
                                 <i class="fas fa-users mr-2"></i>View Jobs
                             </a>
                         </div>

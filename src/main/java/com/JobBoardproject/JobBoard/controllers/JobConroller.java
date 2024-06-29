@@ -1,10 +1,13 @@
 package com.JobBoardproject.JobBoard.controllers;
 
+import com.JobBoardproject.JobBoard.config.UserPrinciple;
 import com.JobBoardproject.JobBoard.model.Job;
+import com.JobBoardproject.JobBoard.model.Users;
 import com.JobBoardproject.JobBoard.services.JobService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -38,15 +41,9 @@ public class JobConroller {
 
     @PostMapping("/save")
     public String saveJob(@ModelAttribute("job") Job job) {
-        Logger logger = LoggerFactory.getLogger(this.getClass());
-
-        // Log the Job object before saving
-        logger.info("Job object received: {}", job);
-
-        // You can also print the object or its fields
-//        System.out.println("Job Title: " + job.getTitle());
-//        System.out.println("Job Description: " + job.getDescription());
-        // Print other fields as needed
+        UserPrinciple userPrinciple = (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Users user = userPrinciple.getUsers();
+        job.setEmployer(user);
         jobService.createJob(job);
         return "redirect:/jobcontrol/jobs";
     }
@@ -57,6 +54,5 @@ public class JobConroller {
         model.addAttribute("job", job);
         return "job-form";
     }
-
 
 }

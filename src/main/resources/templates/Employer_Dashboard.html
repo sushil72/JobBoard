@@ -54,37 +54,35 @@
                 </div>
             </div>
 
-            <form action="/jobcontrol/save" method="post" enctype="multipart/form-data">
+            <form th:action="@{/jobcontrol/save}" method="post" enctype="multipart/form-data">
                 <div class="flex gap-4">
-
-
-                <div class="mb-4 w-full" >
-                    <label class="block text-gray-700 font-bold mb-2" for="title">Job Title</label>
-                    <input type="text"  id="title" name="title" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
-                </div>
+                    <div class="mb-4 w-full" >
+                        <label class="block text-gray-700 font-bold mb-2" for="title">Job Title</label>
+                        <input type="text"  th:value="${job.title}" id="title" name="title" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                    </div>
                 <div class="mb-4 w-full">
                     <label class="block text-gray-700 font-bold mb-2" for="companyName">Company Name</label>
-                    <input type="text" id="companyName" name="companyName" class="shadow py-3 px-4 appearance-none border rounded w-full  text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                    <input type="text" th:value="${job.companyName}" id="companyName" name="companyName" class="shadow py-3 px-4 appearance-none border rounded w-full  text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                 </div>
                 </div>
                 <div class="flex gap-4">
                 <div class="mb-4 w-full" >
                     <label class="block text-gray-700 font-bold mb-2" for="location">Location</label>
-                    <input type="text" id="location" name="location" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                    <input type="text" th:value="${job.location}" id="location" name="location" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                 </div>
                     <div class="mb-4 w-full">
                         <label class="block text-gray-700 font-bold mb-2" for="salary">Salary</label>
-                        <input type="text" id="salary" name="salary" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                        <input type="text" th:value="${job.salary}" id="salary" name="salary" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                     </div>
                 </div>
                 <div class="flex gap-4">
                 <div class="mb-4 w-full">
                     <label class="block text-gray-700 font-bold mb-2" for="postedTime">Posted Time</label>
-                    <input type="datetime-local" id="postedTime" name="postedTime" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                    <input type="datetime-local" th:value="${job.postedTime}" id="postedTime" name="postedTime" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                 </div>
                 <div class="mb-4 w-full">
                     <label class="block text-gray-700 font-bold mb-2" for="expiryDate">Expiry Date</label>
-                    <input type="datetime-local" id="expiryDate" name="expiryDate" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                    <input type="datetime-local" th:value="${job.expiryDate}" id="expiryDate" name="expiryDate" class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                 </div>
                 </div>
 
@@ -99,6 +97,7 @@
                         <option value="Urgent">Urgent</option>
                     </select>
                 </div>
+
                 <div class="mb-4 w-full">
                     <label class="block text-gray-700 font-bold mb-2" for="skills">Skills</label>
                     <select id="skills" name="skills" multiple class="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
@@ -128,22 +127,27 @@
                         <option value="Objective-C">Objective-C</option>
                     </select>
                 </div>
+
                 </div>
                 <div class="flex gap-4">
                 <div class="mb-4 w-full">
-                    <label class="block text-gray-700 font-bold mb-2" for="description">Job Description</label>
-                    <textarea id="description" name="description" class="shadow  h-40 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required></textarea>
+                    <label class="block text-gray-700 font-bold mb-2"  for="description">Job Description</label>
+                    <textarea id="description" name="description" th:text="${job.description}" class="shadow  h-40 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required></textarea>
+<!--                    <span th:text="${job.description}">not present </span>-->
                 </div>
+
                 <div class="mb-4 w-full">
-                    <label class="block text-gray-700 font-bold mb-2" for="keyFeatures">Key Features</label>
-                    <textarea id="keyFeatures" name="keyFeatures" class="shadow h-40 appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required></textarea>
+                    <label class="block text-gray-700 font-bold mb-2"  for="keyFeatures">Key Features</label>
+                    <textarea id="keyFeatures" name="keyFeatures" th:text="${job.keyFeatures}" class="shadow h-40 appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required></textarea>
                 </div>
+
                 </div>
-                <div class="flex items-center justify-between">
+                <div  class="flex items-center justify-between">
                     <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
                         Post Job
                     </button>
                 </div>
+
             </form>
         </div>
     </main>

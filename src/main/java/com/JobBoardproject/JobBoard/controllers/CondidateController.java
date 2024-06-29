@@ -1,6 +1,5 @@
 package com.JobBoardproject.JobBoard.controllers;
 
-import com.JobBoardproject.JobBoard.Exception.ResourceNotFoundException;
 import com.JobBoardproject.JobBoard.Exception.UserNotFoundException;
 import com.JobBoardproject.JobBoard.config.UserPrinciple;
 import com.JobBoardproject.JobBoard.model.Application;
@@ -13,16 +12,10 @@ import com.JobBoardproject.JobBoard.repository.Profile;
 import com.JobBoardproject.JobBoard.services.ApplicationService;
 import com.JobBoardproject.JobBoard.services.JobService;
 import com.JobBoardproject.JobBoard.services.UserService;
-import jakarta.annotation.Resource;
-import org.apache.tika.Tika;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,10 +29,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
 
 @Controller
 @RequestMapping("/candidate")
@@ -161,7 +153,7 @@ public class CondidateController {
         // Retrieve the logged-in user
         UserPrinciple userPrinciple = (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Users user = userPrinciple.getUsers();
-        Application application = applicationRepository.findById(user.getId()).get();
+        Optional<Application> application = applicationRepository.findById(user.getId());
         System.out.println("Logged in user is :"+user.getId());
 //        System.out.println("Application is :"+application.getJob());
 
@@ -169,7 +161,7 @@ public class CondidateController {
         System.out.println("All job present in the application");
         System.out.println(jobs);
         model.addAttribute("jobs", jobs);
-        model.addAttribute("application", application);
+        application.ifPresent(value -> model.addAttribute("application", value));
         return "applied-jobs";
     }
 

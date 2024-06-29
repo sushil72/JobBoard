@@ -27,7 +27,7 @@
             <h2 class="text-2xl font-bold mb-8">Dashboard</h2>
             <ul class="space-y-4">
                 <li>
-                    <a href="/condidate/profile" class="flex bg-gray-300 items-center p-2 text-gray-600 hover:bg-gray-200 rounded-lg">
+                    <a href="/candidate/profile" class="flex bg-gray-300 items-center p-2 text-gray-600 hover:bg-gray-200 rounded-lg">
                         <i class="fas fa-user mr-3"></i> My Profile
                     </a>
                 </li>
@@ -57,22 +57,12 @@
                 <div class="flex items-center space-x-6">
 
 
-<!--                    <img th:if="${candidate.profileImage != null}" th:src="@{/profileImage/{id}(id=${candidate})}" alt="Profile Picture" class="w-24 h-24 rounded-full">-->
-<!--                    <p th:if="${candidate.profileImage == null}" class="text-center text-gray-500">No Profile Picture</p>-->
-<!--                    <img th:src="@{/profileImage/{id}(id=${candidate.id})}" alt="Profile Picture" />-->
-
-    <div class="mb-3">
-        <img th:if="${candidate.profileImage != null }"
-             th:src="@{'/Profile_Pictures/'+${candidate.profileImage}}"
-             alt="profile Picture"
-             class="img-thumbnail rounded-full"
-             style="max-width: 200px;">
-<!--        <img th:unless="${candidate.profileImage == null }"-->
-<!--             src=""-->
-<!--             alt="no image "-->
-<!--             class="img-thumbnail"-->
-<!--             style="max-width: 200px;">-->
-    </div>
+                    <div class="relative w-24 h-24 rounded-full overflow-hidden border border-black">
+                        <img th:if="${candidate.profileImage != null}"
+                             th:src="@{'/Profile_Pictures/'+${candidate.profileImage}}"
+                             alt="Profile Picture"
+                             class="absolute inset-0 w-full h-full object-cover">
+                    </div>
 
 
                     <div>

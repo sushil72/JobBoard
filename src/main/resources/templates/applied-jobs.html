@@ -46,7 +46,7 @@
         <div th:if="${jobs.isEmpty()}">
             <p class="text-gray-600">You have not applied for any jobs yet.</p>
         </div>
-        <div th:if="${!jobs.isEmpty()} " >
+        <div th:else="${!jobs.isEmpty()} " >
             <div class="space-y-4 border px-14 py-10 bg-white rounded-xl">
                 <div th:each="job, iter : ${jobs} " >
 

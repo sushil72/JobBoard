@@ -23,8 +23,11 @@ public class Job {
     private LocalDateTime postedTime;
     private String salary;
     //changes
-    public List<String> jobTypes;
-    public List<String>Skills;
+    @ElementCollection
+    private List<String> jobTypes;
+
+    @ElementCollection
+    private List<String> skills;
 
     @Column(columnDefinition = "TEXT")
     private String description;
